@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 #[allow(unused_variables)]
-use std::time;
 fn main() {
     let (input_n, input_k) = input_n_k();
     let input_a = input_a();
