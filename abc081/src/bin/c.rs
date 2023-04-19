@@ -13,9 +13,11 @@ fn main() {
         counter_a.push(input_a.iter().filter(|&n| *n == *filter).count() as u32);
     }
     counter_a.sort();
-    let counter_slice: &[u32] = &counter_a[0..counter_a.len() - input_k as usize];
-    println!("-------------{:?}", counter_a);
-    println!("-------------{:?}", counter_slice);
+    if counter_a.len() > input_k as usize {
+        let counter_slice: &[u32] = &counter_a[0..counter_a.len() - input_k as usize];
+        output_counter = counter_slice.iter().sum();
+    }
+
     println!("{}", output_counter);
 }
 
