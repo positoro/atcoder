@@ -1,31 +1,26 @@
+use std::collections::HashMap;
 #[allow(unused_variables)]
 use std::time;
-
 fn main() {
     let (input_n, input_k) = input_n_k();
     let input_a = input_a();
-    let mut deduped_a: Vec<u32> = input_a.clone();
-    let mut counter_a: Vec<u32> = Vec::new();
+
+    let mut counter_hashmap: HashMap<u32, u32> = HashMap::new();
     let mut output_counter: u32 = 0;
 
-    let now = time::Instant::now();
-    deduped_a.sort(); /////
-
-    deduped_a.dedup();
-
-    for filter in deduped_a.iter() {
-        counter_a.push(input_a.iter().filter(|&n| *n == *filter).count() as u32);
-        ///////
+    for num in input_a.iter() {
+        let counter = counter_hashmap.entry(*num).or_insert(0);
+        *counter += 1;
     }
 
-    println!("{:?}", now.elapsed());
-    counter_a.sort();
-
-    if counter_a.len() > input_k as usize {
-        let counter_slice: &[u32] = &counter_a[0..counter_a.len() - input_k as usize];
-        output_counter = counter_slice.iter().sum();
+    let mut counter_vec: Vec<(&u32, &u32)> = counter_hashmap.iter().collect();
+    counter_vec.sort_by(|a, b| a.1.cmp(&b.1));
+    if counter_vec.len() > input_k as usize {
+        let counter_slice: &[(&u32, &u32)] = &counter_vec[0..counter_vec.len() - input_k as usize];
+        for a in counter_slice.iter() {
+            output_counter += a.1;
+        }
     }
-
     println!("{}", output_counter);
 }
 
