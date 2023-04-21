@@ -10,7 +10,7 @@ fn main() {
             for num_10000 in 0..(input_n + 1 - num_1000 - num_5000) {
                 let sum_yen = num_10000 * 10000 + num_5000 * 5000 + num_1000 * 1000;
                 let sum_num = num_10000 + num_5000 + num_1000;
-                if sum_yen == input_y {
+                if sum_yen == input_y && sum_num == input_n {
                     number_of_10000 = num_10000 as i32;
                     number_of_5000 = num_5000 as i32;
                     number_of_1000 = num_1000 as i32;
