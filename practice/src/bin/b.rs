@@ -2,11 +2,48 @@ fn main() {
     let (input_n, input_q) = input_usizen_u16q();
     let label: String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".to_string();
     let string_for_sort: String = label[0..input_n].to_string();
-    let answer = quick_sort(string_for_sort);
+    //    let answer = quick_sort(string_for_sort);
+    let answer = merge_sort(string_for_sort);
     println!("! {}", answer);
 }
 
-////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
+fn merge_sort(string_for_sort: String) -> String {
+    let pivot_index = string_for_sort.len() / 2;
+    let mut left: String = string_for_sort[0..pivot_index].to_string();
+    let mut right: String = string_for_sort[pivot_index..string_for_sort.len()].to_string();
+    let mut merged: String = String::new();
+    let return_string: String = String::new();
+    if string_for_sort.len() <= 1 {
+        return string_for_sort;
+    }
+
+    println!("{:?}--{:?} ---- {:?}", merged, left, right);
+    println!(
+        "{:?}--{:?} ---- {:?}",
+        merged,
+        left.pop().unwrap(),
+        right.pop().unwrap()
+    );
+    while {
+        let (left_pop, right_pop) = (left.pop().unwrap(), right.pop().unwrap());
+    }
+        if left_pop < right_pop {
+            merged.push(left_pop);
+        } else {
+            merged.push(right_pop);
+        }
+    if left.is_empty() == false {
+        merged = merged + &left;
+    }
+    if right.is_empty() == false {
+        merged = merged + &right;
+    }
+
+    println!("{:?}--{:?} ---- {:?}", merged, left, right);
+    return return_string;
+}
+
 fn quick_sort(string_for_sort: String) -> String {
     let pivot_index = 0;
     let mut left: String = String::new();
