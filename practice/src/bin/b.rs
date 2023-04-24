@@ -1,3 +1,5 @@
+use std::io::{stdin, stdout, BufReader, Write};
+
 fn main() {
     let (input_n, input_q) = input_usizen_u16q();
     let label: String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".to_string();
@@ -5,6 +7,7 @@ fn main() {
     //    let answer = quick_sort(string_for_sort);
     let answer = merge_sort(string_for_sort);
     println!("! {}", answer);
+    stdout().flush().unwrap();
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -71,6 +74,8 @@ fn quick_sort(string_for_sort: String) -> String {
 fn interactive_query(c1: char, c2: char) -> char {
     let mut input_strings = String::new();
     println!("? {} {}", c1, c2);
+    stdout().flush().unwrap();
+
     std::io::stdin().read_line(&mut input_strings).ok();
     let v: Vec<char> = input_strings
         .trim()
