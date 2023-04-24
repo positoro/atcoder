@@ -8,40 +8,40 @@ fn main() {
 }
 
 /////////////////////////////////////////////////////////////////////////////////
+
 fn merge_sort(string_for_sort: String) -> String {
     let pivot_index = string_for_sort.len() / 2;
     let mut left: String = string_for_sort[0..pivot_index].to_string();
     let mut right: String = string_for_sort[pivot_index..string_for_sort.len()].to_string();
+
     let mut merged: String = String::new();
     let return_string: String = String::new();
     if string_for_sort.len() <= 1 {
         return string_for_sort;
     }
 
-    println!("{:?}--{:?} ---- {:?}", merged, left, right);
-    println!(
-        "{:?}--{:?} ---- {:?}",
-        merged,
-        left.pop().unwrap(),
-        right.pop().unwrap()
-    );
-    while {
-        let (left_pop, right_pop) = (left.pop().unwrap(), right.pop().unwrap());
-    }
-        if left_pop < right_pop {
+    left = merge_sort(left);
+    right = merge_sort(right);
+
+    while left.is_empty() == false && right.is_empty() == false {
+        let (left_pop, right_pop) = (left.chars().next().unwrap(), right.chars().next().unwrap());
+
+        if interactive_query(left_pop, right_pop) == '<' {
             merged.push(left_pop);
+            left.remove(0);
         } else {
             merged.push(right_pop);
+            right.remove(0);
         }
+    }
+
     if left.is_empty() == false {
         merged = merged + &left;
     }
     if right.is_empty() == false {
         merged = merged + &right;
     }
-
-    println!("{:?}--{:?} ---- {:?}", merged, left, right);
-    return return_string;
+    return merged;
 }
 
 fn quick_sort(string_for_sort: String) -> String {
