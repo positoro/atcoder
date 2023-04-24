@@ -1,6 +1,4 @@
-#[allow(dead_code)]
-#[allow(unused_variables)]
-#[allow(dead_code)]
+const QUICK_SORT_FLAG: bool = false;
 
 fn main() {
     let (input_n, input_q) = input_usizen_u16q();
@@ -10,8 +8,11 @@ fn main() {
     if input_n == 5 {
         answer = five_sort(string_for_sort);
     } else {
-        //answer = quick_sort(string_for_sort);
-        answer = merge_sort(string_for_sort);
+        if QUICK_SORT_FLAG {
+            answer = quick_sort(string_for_sort);
+        } else {
+            answer = merge_sort(string_for_sort);
+        }
     }
     println!("! {}", answer);
 }
@@ -19,17 +20,15 @@ fn main() {
 /////////////////////////////////////////////////////////////////////////////////
 
 fn five_sort(mut string_for_sort: String) -> String {
-    let return_string: String = String::new();
-
     let char_4: char = string_for_sort.pop().unwrap();
 
     let left: String = string_for_sort[0..2].to_string();
     let right: String = string_for_sort[2..4].to_string();
 
-    let mut merged = merge_sort(left.clone()) + &merge_sort(right.clone());
+    let mut merged = merge_sort(left) + &merge_sort(right);
 
-    let char_of_left_query = merged.chars().nth(1).unwrap();
-    let char_of_right_query = merged.chars().nth(3).unwrap();
+    let char_of_left_query = merged.chars().nth(0).unwrap();
+    let char_of_right_query = merged.chars().nth(2).unwrap();
 
     if interactive_query(char_of_left_query, char_of_right_query) == '>' {
         let mut merged_swap: String = String::new();
@@ -58,7 +57,7 @@ fn five_sort(mut string_for_sort: String) -> String {
     let mut char_3_inputted: String = binary_search(char_4_inputted.clone(), char_3);
     char_3_inputted.insert(index_char_0, char_0_second);
 
-    return return_string;
+    return char_3_inputted;
 }
 
 fn binary_search(mut search_string: String, insert_char: char) -> String {
@@ -76,8 +75,11 @@ fn binary_search(mut search_string: String, insert_char: char) -> String {
             search_string = binary_search(search_string[0..m].to_string(), insert_char)
                 + &search_string[m..search_string.len()].to_string();
         } else {
-            search_string = search_string[m + 1..search_string.len()].to_string()
-                + &binary_search(search_string[0..m + 1].to_string(), insert_char);
+            search_string = search_string[0..(m + 1)].to_string()
+                + &binary_search(
+                    search_string[(m + 1)..search_string.len()].to_string(),
+                    insert_char,
+                );
         }
     }
 
