@@ -19,3 +19,17 @@ fn main() {
 
     println!("{} {}", a + b + c, s);
 }
+
+pub fn for_test_bench_a() {
+    let mut counter = 0;
+    for i in 0..10 {
+        counter += 1;
+    }
+}
+
+pub fn for_test_bench_b() {
+    let mut counter = 0;
+    for i in 0..10 {
+        counter *= 2;
+    }
+}
