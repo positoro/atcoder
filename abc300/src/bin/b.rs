@@ -6,13 +6,11 @@ fn main() {
     let count_of_b = counter(&input_b_char_vec_vec, input_h);
     let mut print_str: &str = "No";
 
-    for i in 1..input_h {
-        for j in 1..input_w {
+    for i in 0..input_h {
+        for j in 0..input_w {
             let rotated_vec_vec: Vec<Vec<char>> =
                 rotate(&input_a_char_vec_vec, i, j, input_h, input_w);
             if check(&rotated_vec_vec, &input_b_char_vec_vec) == true {
-                println!("{:?} --- {:?}", &rotated_vec_vec, &input_b_char_vec_vec);
-                print_str = "Yes";
                 print_str = "Yes";
             }
         }
