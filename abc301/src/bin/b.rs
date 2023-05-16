@@ -24,11 +24,16 @@ fn main() {
         }
     }
 
-    let dst: Vec<String> = output_i32_vector.iter().map(|x| x.to_string()).collect();
-    println!("{}", dst.join(" "));
+    println!("{:?}", output_i32_vector);
+    stdout_i32_vector(&output_i32_vector);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+
+fn stdout_i32_vector(v: &Vec<i32>) {
+    let s_vec: Vec<String> = v.iter().map(|x| x.to_string()).collect();
+    println!("{}", s_vec.join(" "));
+}
 
 fn input_i32_vector() -> Vec<i32> {
     let mut input_strings = String::new();

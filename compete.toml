@@ -29,10 +29,15 @@ fn main() {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+fn stdout_i32_vector(v: &Vec<i32>) {
+    let s_vec: Vec<String> = v.iter().map(|x| x.to_string()).collect();
+    println!("{}", s_vec.join(" "));
+}
+
 fn input_s() -> String {
     let mut input_strings = String::new();
     std::io::stdin().read_line(&mut input_strings).ok();
-    return input_strings;
+    input_strings.trim().parse().ok().unwrap()
 }
 
 fn input_u32_vector() -> Vec<u32> {
