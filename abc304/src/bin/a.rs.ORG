@@ -1,0 +1,37 @@
+use std::collections::HashMap;
+
+fn main() {
+    let input_n_u8: u8 = input_n();
+    let mut input_sa_hash: HashMap<String, u32> = HashMap::new();
+    input_hash(&mut input_sa_hash, input_n_u8);
+
+    println!("{:?}", input_sa_hash[0]);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+fn input_hash(hash: &mut HashMap<String, u32>, n: u8) {
+    let mut input_strings = String::new();
+
+    for _ in 0..n {
+        std::io::stdin().read_line(&mut input_strings).ok();
+        let v: Vec<String> = input_strings
+            .trim()
+            .split_whitespace()
+            .map(|e| e.parse().ok().unwrap())
+            .collect();
+        input_strings.clear();
+        hash.insert(v[0].clone(), v[1].parse().unwrap());
+    }
+}
+
+fn input_n() -> u8 {
+    let mut input_strings = String::new();
+    std::io::stdin().read_line(&mut input_strings).ok();
+    let v: Vec<u8> = input_strings
+        .trim()
+        .split_whitespace()
+        .map(|e| e.parse().ok().unwrap())
+        .collect();
+    return v[0];
+}
