@@ -29,6 +29,24 @@ fn main() {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+fn input_xy_vec(n: i32) -> Vec<(i32, i32)> {
+    let mut input_strings = String::new();
+    let mut return_vec = Vec::new();
+
+    for _ in 0..n {
+        std::io::stdin().read_line(&mut input_strings).ok();
+        let v: Vec<String> = input_strings
+            .trim()
+            .split_whitespace()
+            .map(|e| e.parse().ok().unwrap())
+            .collect();
+        input_strings.clear();
+        return_vec.push((v[0].parse().unwrap(), v[1].parse().unwrap()));
+    }
+
+    return return_vec;
+}
+
 fn get_char_from_string_vector(h: usize, w: usize, string_vector: &Vec<String>) -> char {
     let return_char: char = string_vector[h].chars().nth(w).unwrap();
     return return_char;
@@ -78,17 +96,6 @@ fn input_u32_vector() -> Vec<u32> {
         .map(|e| e.parse().ok().unwrap())
         .collect();
     return v;
-}
-
-fn input_a_b() -> (u16, u16) {
-    let mut input_strings = String::new();
-    std::io::stdin().read_line(&mut input_strings).ok();
-    let v: Vec<u16> = input_strings
-        .trim()
-        .split_whitespace()
-        .map(|e| e.parse().ok().unwrap())
-        .collect();
-    return (v[0], v[1]);
 }
 
 fn input_n() -> u8 {
