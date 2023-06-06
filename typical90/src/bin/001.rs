@@ -1,6 +1,11 @@
 fn main() {
-    let input_n = input_n() as usize;
-    let mut input_u32_vector = input_u32_vector();
+    let input_u32_n_l = input_u32_tuple();
+    let input_u32_k = input_u32();
+    let input_u32_vec_a = input_u32_vector();
+
+    println!("{:?}", input_u32_n_l);
+    println!("{:?}", input_u32_k);
+    println!("{:?}", input_u32_vec_a);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -24,10 +29,10 @@ fn input_string_vector(low: usize) -> Vec<String> {
     return return_vec;
 }
 
-fn input_h_w() -> (usize, usize) {
+fn input_u32_tuple() -> (u32, u32) {
     let mut input_strings = String::new();
     std::io::stdin().read_line(&mut input_strings).ok();
-    let v: Vec<usize> = input_strings
+    let v: Vec<u32> = input_strings
         .trim()
         .split_whitespace()
         .map(|e| e.parse().ok().unwrap())
@@ -56,21 +61,10 @@ fn input_u32_vector() -> Vec<u32> {
     return v;
 }
 
-fn input_a_b() -> (u16, u16) {
+fn input_u32() -> u32 {
     let mut input_strings = String::new();
     std::io::stdin().read_line(&mut input_strings).ok();
-    let v: Vec<u16> = input_strings
-        .trim()
-        .split_whitespace()
-        .map(|e| e.parse().ok().unwrap())
-        .collect();
-    return (v[0], v[1]);
-}
-
-fn input_n() -> u8 {
-    let mut input_strings = String::new();
-    std::io::stdin().read_line(&mut input_strings).ok();
-    let v: Vec<u8> = input_strings
+    let v: Vec<u32> = input_strings
         .trim()
         .split_whitespace()
         .map(|e| e.parse().ok().unwrap())
