@@ -6,7 +6,7 @@ fn main() {
     let mut right: i32 = (input_u32_n_l.1 + 1) as i32;
 
     while right - left > 1 {
-        let mut mid: i32 = right - left;
+        let mut mid: i32 = (right + left) / 2;
         if cut_able_check(
             mid as u32,
             &input_u32_vec_a,
@@ -18,8 +18,8 @@ fn main() {
         } else {
             right = mid;
         }
-        println!("{}", left);
     }
+    println!("{}", left);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
