@@ -1,76 +1,103 @@
 fn main() {
-    let input_n = input_n() as usize;
-    let mut input_u32_vector = input_u32_vector();
+    let input_u32_n = input_u32();
+
+    if input_u32_n % 2 == 0 {
+        let parentheses: Vec<String> = get_parentheses(input_u32_n);
+        stdout_string_vector(&parentheses);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-fn get_char_from_string_vector(h: usize, w: usize, string_vector: &Vec<String>) -> char {
-    let return_char: char = string_vector[h].chars().nth(w).unwrap();
-    return return_char;
+fn stdout_string_vector(v: &Vec<String>) {
+    for val in v.iter() {
+        println!("{}", val);
+    }
 }
 
-fn input_string_vector(low: usize) -> Vec<String> {
-    let mut input_strings = String::new();
-    let mut return_vec: Vec<String> = Vec::new();
-
-    for _ in 0..low {
-        std::io::stdin().read_line(&mut input_strings).ok();
-        let push_low: String = input_strings.trim().parse().ok().unwrap();
-        return_vec.push(push_low);
-        input_strings.clear();
+fn count_bit(value: u32) -> u32 {
+    let mut input_value: u32 = value;
+    let mut return_value: u32 = 0;
+    while input_value > 0 {
+        return_value = return_value + (input_value & 1);
+        input_value = input_value >> 1;
     }
 
-    return return_vec;
+    return return_value;
 }
 
-fn input_h_w() -> (usize, usize) {
-    let mut input_strings = String::new();
-    std::io::stdin().read_line(&mut input_strings).ok();
-    let v: Vec<usize> = input_strings
-        .trim()
-        .split_whitespace()
-        .map(|e| e.parse().ok().unwrap())
-        .collect();
-    return (v[0], v[1]);
-}
-fn stdout_i32_vector(v: &Vec<i32>) {
-    let s_vec: Vec<String> = v.iter().map(|x| x.to_string()).collect();
-    println!("{}", s_vec.join(" "));
+fn get_bit_length(value: u32) -> u32 {
+    let length_in_bit: u32 = value.checked_ilog2().unwrap() + 1;
+
+    return length_in_bit;
 }
 
-fn input_s() -> String {
-    let mut input_strings = String::new();
-    std::io::stdin().read_line(&mut input_strings).ok();
-    input_strings.trim().parse().ok().unwrap()
+fn count_no_bit(value: u32) -> u32 {
+    let return_value: u32 = get_bit_length(value) - count_bit(value);
+
+    return return_value;
 }
 
-fn input_u32_vector() -> Vec<u32> {
+fn create_parenthes(value: u32) -> String {
+    let mut return_string: String = String::new();
+    let mut input_value: u32 = value;
+
+    while input_value > 0 {
+        if (input_value & 1) == 0 {
+            return_string.push('(');
+        } else {
+            return_string.push(')');
+        }
+        input_value = input_value >> 1;
+    }
+
+    return return_string;
+}
+
+fn check_parenthes(value: u32) -> bool {
+    let mut return_bool: bool = true;
+    let mut input_value: u32 = value;
+    let mut bit_counter: u32 = 0;
+    let mut no_bit_counter: u32 = 0;
+
+    if count_bit(value) != count_no_bit(value) {
+        return_bool = false;
+        return return_bool;
+    }
+
+    while input_value > 0 {
+        if (input_value & 1) == 0 {
+            no_bit_counter = no_bit_counter + 1;
+        } else {
+            bit_counter = bit_counter + 1;
+        }
+
+        if no_bit_counter < bit_counter {
+            return_bool = false;
+            break;
+        }
+
+        input_value = input_value >> 1;
+    }
+    return return_bool;
+}
+
+fn get_parentheses(n: u32) -> Vec<String> {
+    let mut return_vec_string: Vec<String> = Vec::new();
+
+    for i in 2_u32.pow(n - 1)..(2_u32.pow(n) - 1) {
+        if check_parenthes(i) == true {
+            return_vec_string.insert(0, create_parenthes(i));
+        }
+    }
+
+    return return_vec_string;
+}
+
+fn input_u32() -> u32 {
     let mut input_strings = String::new();
     std::io::stdin().read_line(&mut input_strings).ok();
     let v: Vec<u32> = input_strings
-        .trim()
-        .split_whitespace()
-        .map(|e| e.parse().ok().unwrap())
-        .collect();
-    return v;
-}
-
-fn input_a_b() -> (u16, u16) {
-    let mut input_strings = String::new();
-    std::io::stdin().read_line(&mut input_strings).ok();
-    let v: Vec<u16> = input_strings
-        .trim()
-        .split_whitespace()
-        .map(|e| e.parse().ok().unwrap())
-        .collect();
-    return (v[0], v[1]);
-}
-
-fn input_n() -> u8 {
-    let mut input_strings = String::new();
-    std::io::stdin().read_line(&mut input_strings).ok();
-    let v: Vec<u8> = input_strings
         .trim()
         .split_whitespace()
         .map(|e| e.parse().ok().unwrap())
