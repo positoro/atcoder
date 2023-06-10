@@ -1,76 +1,81 @@
 fn main() {
-    let input_n = input_n() as usize;
-    let mut input_u32_vector = input_u32_vector();
+    let n = input_u32();
+    let a_b_tuple_vector: Vec<(u32, u32)> = input_u32_tuple_vector(n);
+    let tuple_vector: Vec<(u32, u32)> = set_tuple_vector_zero_index(a_b_tuple_vector);
+    let graph = create_graph(n, tuple_vector);
+    let distance_from_zero_vector: Vec<u32> = dfs(&graph, 0);
+
+    let (max_distance_node_from_zero, max_distance_from_zero): (u32, u32) =
+        get_max_distance_node(distance_from_zero_vector);
+
+    let distance_from_max_distance_vector: Vec<u32> = dfs(&graph, max_distance_node_from_zero);
+    let (max_distance_node_from_max_distance, max_distance_from_max_distance): (u32, u32) =
+        get_max_distance_node(distance_from_max_distance_vector);
+
+    println!("{}", max_distance_from_max_distance);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+fn dfs(graph: &Vec<Vec<u32>>, from_node: u32) -> Vec<u32> {
+    let return_vector: Vec<u32> = Vec::new();
+    return return_vector;
+}
+fn get_max_distance_node(distance_vector: Vec<u32>) -> (u32, u32) {
+    let mut max_node_index: i32 = -1;
+    let mut max_distance: u32 = 0;
 
-fn get_char_from_string_vector(h: usize, w: usize, string_vector: &Vec<String>) -> char {
-    let return_char: char = string_vector[h].chars().nth(w).unwrap();
-    return return_char;
+    for (index, value) in distance_vector.iter().enumerate() {
+        if max_distance < *value {
+            max_distance = *value;
+            max_node_index = index as i32;
+        }
+    }
+    return (max_node_index as u32, max_distance);
 }
 
-fn input_string_vector(low: usize) -> Vec<String> {
-    let mut input_strings = String::new();
-    let mut return_vec: Vec<String> = Vec::new();
+fn set_tuple_vector_zero_index(a_b_tuple_vector: Vec<(u32, u32)>) -> Vec<(u32, u32)> {
+    let mut return_tuple_vector: Vec<(u32, u32)> = Vec::new();
 
-    for _ in 0..low {
-        std::io::stdin().read_line(&mut input_strings).ok();
-        let push_low: String = input_strings.trim().parse().ok().unwrap();
-        return_vec.push(push_low);
-        input_strings.clear();
+    for v in a_b_tuple_vector.iter() {
+        return_tuple_vector.push((v.0 - 1, v.1 - 1));
     }
 
-    return return_vec;
+    return return_tuple_vector;
 }
 
-fn input_h_w() -> (usize, usize) {
+fn create_graph(n: u32, a_b_tuple_vector: Vec<(u32, u32)>) -> Vec<Vec<u32>> {
+    let mut return_vec_vec: Vec<Vec<u32>> = vec![Vec::new(); n as usize];
+
+    for v in a_b_tuple_vector.iter() {
+        return_vec_vec[v.0 as usize].push(v.1);
+        return_vec_vec[v.1 as usize].push(v.0);
+    }
+
+    return return_vec_vec;
+}
+
+fn input_u32_tuple_vector(n: u32) -> Vec<(u32, u32)> {
     let mut input_strings = String::new();
-    std::io::stdin().read_line(&mut input_strings).ok();
-    let v: Vec<usize> = input_strings
-        .trim()
-        .split_whitespace()
-        .map(|e| e.parse().ok().unwrap())
-        .collect();
-    return (v[0], v[1]);
-}
-fn stdout_i32_vector(v: &Vec<i32>) {
-    let s_vec: Vec<String> = v.iter().map(|x| x.to_string()).collect();
-    println!("{}", s_vec.join(" "));
+    let mut return_vector = Vec::new();
+
+    for _ in 0..(n - 1) {
+        std::io::stdin().read_line(&mut input_strings).ok();
+        let v: Vec<u32> = input_strings
+            .trim()
+            .split_whitespace()
+            .map(|e| e.parse().ok().unwrap())
+            .collect();
+        input_strings.clear();
+        return_vector.push((v[0], v[1]));
+    }
+
+    return return_vector;
 }
 
-fn input_s() -> String {
-    let mut input_strings = String::new();
-    std::io::stdin().read_line(&mut input_strings).ok();
-    input_strings.trim().parse().ok().unwrap()
-}
-
-fn input_u32_vector() -> Vec<u32> {
+fn input_u32() -> u32 {
     let mut input_strings = String::new();
     std::io::stdin().read_line(&mut input_strings).ok();
     let v: Vec<u32> = input_strings
-        .trim()
-        .split_whitespace()
-        .map(|e| e.parse().ok().unwrap())
-        .collect();
-    return v;
-}
-
-fn input_a_b() -> (u16, u16) {
-    let mut input_strings = String::new();
-    std::io::stdin().read_line(&mut input_strings).ok();
-    let v: Vec<u16> = input_strings
-        .trim()
-        .split_whitespace()
-        .map(|e| e.parse().ok().unwrap())
-        .collect();
-    return (v[0], v[1]);
-}
-
-fn input_n() -> u8 {
-    let mut input_strings = String::new();
-    std::io::stdin().read_line(&mut input_strings).ok();
-    let v: Vec<u8> = input_strings
         .trim()
         .split_whitespace()
         .map(|e| e.parse().ok().unwrap())
