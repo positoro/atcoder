@@ -19,15 +19,6 @@ fn get_bit(value: u32, digit: u32) -> u32 {
     (value >> (digit - 1)) & 1
 }
 
-#[allow(dead_code)]
-fn get_bit_length(value: u32) -> u32 {
-    let mut length_in_bit: u32 = 0;
-    if value > 0 {
-        length_in_bit = value.checked_ilog2().unwrap() + 1;
-    }
-    return length_in_bit;
-}
-
 fn count_bit(value: u32) -> u32 {
     let mut input_value: u32 = value;
     let mut return_value: u32 = 0;
