@@ -15,6 +15,19 @@ fn stdout_string_vector(v: &Vec<String>) {
     }
 }
 
+fn get_bit(value: u32, digit: u32) -> u32 {
+    (value >> (digit - 1)) & 1
+}
+
+#[allow(dead_code)]
+fn get_bit_length(value: u32) -> u32 {
+    let mut length_in_bit: u32 = 0;
+    if value > 0 {
+        length_in_bit = value.checked_ilog2().unwrap() + 1;
+    }
+    return length_in_bit;
+}
+
 fn count_bit(value: u32) -> u32 {
     let mut input_value: u32 = value;
     let mut return_value: u32 = 0;
@@ -26,68 +39,50 @@ fn count_bit(value: u32) -> u32 {
     return return_value;
 }
 
-fn get_bit_length(value: u32) -> u32 {
-    let length_in_bit: u32 = value.checked_ilog2().unwrap() + 1;
-
-    return length_in_bit;
-}
-
-fn count_no_bit(value: u32) -> u32 {
-    let return_value: u32 = get_bit_length(value) - count_bit(value);
-
-    return return_value;
-}
-
-fn create_parenthes(value: u32) -> String {
+fn create_parenthes(value: u32, n: u32) -> String {
     let mut return_string: String = String::new();
-    let mut input_value: u32 = value;
 
-    while input_value > 0 {
-        if (input_value & 1) == 0 {
+    for i in (1..(n + 1)).rev() {
+        if get_bit(value, i) & 1 == 0 {
             return_string.push('(');
         } else {
             return_string.push(')');
         }
-        input_value = input_value >> 1;
     }
 
     return return_string;
 }
 
-fn check_parenthes(value: u32) -> bool {
-    let mut return_bool: bool = true;
-    let mut input_value: u32 = value;
+fn check_parenthes(value: u32, n: u32) -> bool {
     let mut bit_counter: u32 = 0;
     let mut no_bit_counter: u32 = 0;
 
-    if count_bit(value) != count_no_bit(value) {
-        return_bool = false;
-        return return_bool;
+    if count_bit(value) + count_bit(value) != n {
+        return false;
     }
 
-    while input_value > 0 {
-        if (input_value & 1) == 0 {
+    for i in (1..(n + 1)).rev() {
+        if get_bit(value, i) == 0 {
             no_bit_counter = no_bit_counter + 1;
         } else {
             bit_counter = bit_counter + 1;
         }
 
         if no_bit_counter < bit_counter {
-            return_bool = false;
-            break;
+            return false;
         }
-
-        input_value = input_value >> 1;
     }
-    return return_bool;
+
+    return true;
 }
 
 fn get_parentheses(n: u32) -> Vec<String> {
     let mut return_vec_string: Vec<String> = Vec::new();
+    let check_max = 2u32.pow(n - 1);
 
-    for i in 2_u32.pow(n - 1)..(2_u32.pow(n) - 1) {
-        if check_parenthes(i) == true {
-            return_vec_string.insert(0, create_parenthes(i));
+    for i in 0..check_max {
+        if check_parenthes(i, n) == true {
+            return_vec_string.push(create_parenthes(i, n));
         }
     }
 
