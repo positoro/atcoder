@@ -34,6 +34,24 @@ fn main() {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+fn input_u32_tuple_vector(n: u32) -> Vec<(u32, u32)> {
+    let mut input_strings = String::new();
+    let mut return_vector = Vec::new();
+
+    for _ in 0..(n - 1) {
+        std::io::stdin().read_line(&mut input_strings).ok();
+        let v: Vec<u32> = input_strings
+            .trim()
+            .split_whitespace()
+            .map(|e| e.parse().ok().unwrap())
+            .collect();
+        input_strings.clear();
+        return_vector.push((v[0], v[1]));
+    }
+
+    return return_vector;
+}
+
 fn get_char_from_string_vector(h: usize, w: usize, string_vector: &Vec<String>) -> char {
     let return_char: char = string_vector[h].chars().nth(w).unwrap();
     return return_char;
