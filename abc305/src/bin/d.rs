@@ -1,20 +1,58 @@
 fn main() {
-    let input_u32_n_l = input_u32_tuple();
-    let input_u32_k = input_u32();
-    let input_u32_vec_a = input_u32_vector();
-
-    println!("{:?}", input_u32_n_l);
-    println!("{:?}", input_u32_k);
-    println!("{:?}", input_u32_vec_a);
+    let n_u32: u32 = input_u32();
+    let a_u32_vector: Vec<u32> = input_u32_vector();
+    let awake_time_vector: Vec<(u32, u32)> = create_awake_time_vector(&a_u32_vector);
+    let q_u32: u32 = input_u32();
+    let l_r_u32_tuple_vector: Vec<(u32, u32)> = input_u32_tuple_vector(q_u32);
+    let mut awaking_time: u32 = 0;
+    for (l, r) in l_r_u32_tuple_vector.iter() {
+        awaking_time = count_awaking_time(*l, *r, &awake_time_vector);
+        println!("{:?}", awaking_time);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+
+fn count_awaking_time(s: u32, e: u32, awake_time_vector: &Vec<(u32, u32)>) -> u32 {
+    let mut return_time: u32 = 0;
+
+    for i in s..e {
+        if check_awaking(i, awake_time_vector) == false {
+            return_time = return_time + 1;
+        }
+    }
+
+    return return_time;
+}
+
+fn check_awaking(n: u32, awake_time_vector: &Vec<(u32, u32)>) -> bool {
+    let mut return_bool: bool = false;
+    for (awake_start, awake_end) in awake_time_vector.iter() {
+        if *awake_start <= n && n < *awake_end {
+            return_bool = true;
+        }
+    }
+
+    return return_bool;
+}
+
+fn create_awake_time_vector(a: &Vec<u32>) -> Vec<(u32, u32)> {
+    let mut awake_time_vector: Vec<(u32, u32)> = Vec::new();
+    for (index, value) in a.iter().enumerate().step_by(2) {
+        let end: usize = index + 1;
+        if end < a.len() {
+            awake_time_vector.push((*value, a[end]))
+        }
+    }
+
+    return awake_time_vector;
+}
 
 fn input_u32_tuple_vector(n: u32) -> Vec<(u32, u32)> {
     let mut input_strings = String::new();
     let mut return_vector = Vec::new();
 
-    for _ in 0..(n - 1) {
+    for _ in 0..n {
         std::io::stdin().read_line(&mut input_strings).ok();
         let v: Vec<u32> = input_strings
             .trim()
@@ -26,46 +64,6 @@ fn input_u32_tuple_vector(n: u32) -> Vec<(u32, u32)> {
     }
 
     return return_vector;
-}
-
-fn get_char_from_string_vector(h: usize, w: usize, string_vector: &Vec<String>) -> char {
-    let return_char: char = string_vector[h].chars().nth(w).unwrap();
-    return return_char;
-}
-
-fn input_string_vector(low: usize) -> Vec<String> {
-    let mut input_strings = String::new();
-    let mut return_vec: Vec<String> = Vec::new();
-
-    for _ in 0..low {
-        std::io::stdin().read_line(&mut input_strings).ok();
-        let push_low: String = input_strings.trim().parse().ok().unwrap();
-        return_vec.push(push_low);
-        input_strings.clear();
-    }
-
-    return return_vec;
-}
-
-fn input_u32_tuple() -> (u32, u32) {
-    let mut input_strings = String::new();
-    std::io::stdin().read_line(&mut input_strings).ok();
-    let v: Vec<u32> = input_strings
-        .trim()
-        .split_whitespace()
-        .map(|e| e.parse().ok().unwrap())
-        .collect();
-    return (v[0], v[1]);
-}
-fn stdout_i32_vector(v: &Vec<i32>) {
-    let s_vec: Vec<String> = v.iter().map(|x| x.to_string()).collect();
-    println!("{}", s_vec.join(" "));
-}
-
-fn input_s() -> String {
-    let mut input_strings = String::new();
-    std::io::stdin().read_line(&mut input_strings).ok();
-    input_strings.trim().parse().ok().unwrap()
 }
 
 fn input_u32_vector() -> Vec<u32> {
