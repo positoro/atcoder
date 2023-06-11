@@ -12,21 +12,30 @@ fn main() {
     let (max_distance_node_from_max_distance, max_distance_from_max_distance): (i32, i32) =
         get_max_distance_node(distance_from_max_distance_vector);
 
-    println!("{}", max_distance_from_max_distance);
+    println!("{}", max_distance_from_max_distance + 1);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-fn dfs(graph: &Vec<Vec<u32>>, from_node: i32) -> Vec<i32> {
+
+fn dfs(graph: &Vec<Vec<i32>>, from_node: i32) -> Vec<i32> {
     let graph_length: usize = graph.len();
-    let return_vector: Vec<i32> = vec![-1; graph_length];
+    let mut distance_vector: Vec<i32> = vec![-1; graph_length];
+    distance_vector[from_node as usize] = 0;
+
     let mut stack: Vec<i32> = vec![from_node];
 
     while stack.is_empty() == false {
-        let mut v = stack.pop().unwrap();
-        for (index, value) in graph[v as usize].iter().enumerate() {}
+        let v = stack.pop().unwrap();
+        for node_index in graph[v as usize].iter() {
+            if distance_vector[*node_index as usize] == -1 {
+                stack.push(*node_index);
+                distance_vector[*node_index as usize] = distance_vector[v as usize] + 1;
+            }
+        }
     }
-    return return_vector;
+    return distance_vector;
 }
+
 fn get_max_distance_node(distance_vector: Vec<i32>) -> (i32, i32) {
     let mut max_node_index: i32 = -1;
     let mut max_distance: i32 = -1;
@@ -50,12 +59,12 @@ fn set_tuple_vector_zero_index(a_b_tuple_vector: Vec<(u32, u32)>) -> Vec<(u32, u
     return return_tuple_vector;
 }
 
-fn create_graph(n: u32, a_b_tuple_vector: Vec<(u32, u32)>) -> Vec<Vec<u32>> {
-    let mut return_vec_vec: Vec<Vec<u32>> = vec![Vec::new(); n as usize];
+fn create_graph(n: u32, a_b_tuple_vector: Vec<(u32, u32)>) -> Vec<Vec<i32>> {
+    let mut return_vec_vec: Vec<Vec<i32>> = vec![Vec::new(); n as usize];
 
     for v in a_b_tuple_vector.iter() {
-        return_vec_vec[v.0 as usize].push(v.1);
-        return_vec_vec[v.1 as usize].push(v.0);
+        return_vec_vec[v.0 as usize].push(v.1 as i32);
+        return_vec_vec[v.1 as usize].push(v.0 as i32);
     }
 
     return return_vec_vec;
