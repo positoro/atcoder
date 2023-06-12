@@ -2,16 +2,33 @@ fn main() {
     let n_u32: u32 = input_u32();
     let a_u32_vector: Vec<u32> = input_u32_vector();
     let awake_time_vector: Vec<(u32, u32)> = create_awake_time_vector(&a_u32_vector);
+    let sleep_time_vector: Vec<(u32, u32)> = create_sleep_time_vector(&a_u32_vector);
     let q_u32: u32 = input_u32();
     let l_r_u32_tuple_vector: Vec<(u32, u32)> = input_u32_tuple_vector(q_u32);
-    let mut awaking_time: u32 = 0;
-    for (l, r) in l_r_u32_tuple_vector.iter() {
-        awaking_time = count_awaking_time(*l, *r, &awake_time_vector);
-        println!("{:?}", awaking_time);
+
+    for lr in l_r_u32_tuple_vector.iter() {
+        let awaking_time: u32 = calculate_awaking_time(lr.0, lr.1, &sleep_time_vector);
+        println!("{}", lr.1 - lr.0 - awaking_time);
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+fn calculate_awaking_time(s: u32, e: u32, sleep_time_vector: &Vec<(u32, u32)>) -> u32 {
+    let mut awaking_time: u32 = e - s;
+
+    for se in sleep_time_vector.iter() {
+        if (se.0 <= s && se.1 <= s) || (e <= se.0 && e <= se.1) {
+            continue;
+        } else if (s <= se.0 && se.0 <= e) && (s <= se.1 && se.1 <= e) {
+            awaking_time = awaking_time - (se.1 - se.0);
+        } else if (se.0 <= s && s <= se.1 && se.1 <= e) {
+            awaking_time = awaking_time - (se.1 - s);
+        } else if (s <= se.0 && se.0 <= e) && (s <= se.1 && e <= se.1) {
+            awaking_time = awaking_time - (e - se.0);
+        }
+    }
+    return awaking_time;
+}
 
 fn count_awaking_time(s: u32, e: u32, awake_time_vector: &Vec<(u32, u32)>) -> u32 {
     let mut return_time: u32 = 0;
@@ -46,6 +63,17 @@ fn create_awake_time_vector(a: &Vec<u32>) -> Vec<(u32, u32)> {
     }
 
     return awake_time_vector;
+}
+
+fn create_sleep_time_vector(a: &Vec<u32>) -> Vec<(u32, u32)> {
+    let mut sleep_time_vector: Vec<(u32, u32)> = Vec::new();
+    for i in (1..a.len() - 1).step_by(2) {
+        let sleep_start: usize = i;
+        let sleep_end: usize = i + 1;
+        sleep_time_vector.push((a[sleep_start], a[sleep_end]))
+    }
+
+    return sleep_time_vector;
 }
 
 fn input_u32_tuple_vector(n: u32) -> Vec<(u32, u32)> {
