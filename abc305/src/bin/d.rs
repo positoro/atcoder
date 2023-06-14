@@ -1,18 +1,32 @@
 fn main() {
     let n_u32: u32 = input_u32();
     let a_u32_vector: Vec<u32> = input_u32_vector();
-    let awake_time_vector: Vec<(u32, u32)> = create_awake_time_vector(&a_u32_vector);
     let sleep_time_vector: Vec<(u32, u32)> = create_sleep_time_vector(&a_u32_vector);
     let q_u32: u32 = input_u32();
     let l_r_u32_tuple_vector: Vec<(u32, u32)> = input_u32_tuple_vector(q_u32);
 
     for lr in l_r_u32_tuple_vector.iter() {
-        let awaking_time: u32 = calculate_awaking_time(lr.0, lr.1, &sleep_time_vector);
-        println!("{}", lr.1 - lr.0 - awaking_time);
+        let sleep_time: u32 =
+            get_sleep_time(lr.1, &sleep_time_vector) - get_sleep_time(lr.0, &sleep_time_vector);
+        println!("{}", sleep_time);
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+fn get_sleep_time(time: u32, sleep_time_vector: &Vec<(u32, u32)>) -> u32 {
+    let mut return_sleep_time: u32 = 0;
+    for (sleep_start, sleep_end) in sleep_time_vector.iter() {
+        if *sleep_end < time {
+            return_sleep_time = return_sleep_time + (*sleep_end - *sleep_start);
+        } else if *sleep_start <= time && time <= *sleep_end {
+            return_sleep_time = return_sleep_time + (time - *sleep_start);
+            break;
+        }
+    }
+
+    return return_sleep_time;
+}
+
 fn calculate_awaking_time(s: u32, e: u32, sleep_time_vector: &Vec<(u32, u32)>) -> u32 {
     let mut awaking_time: u32 = e - s;
 
