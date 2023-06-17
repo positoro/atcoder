@@ -1,20 +1,77 @@
 fn main() {
     let n_u32: u32 = input_u32();
     let a_u32_vector: Vec<u32> = input_u32_vector();
-    //    let sleep_time_vector: Vec<(u32, u32)> = create_sleep_time_vector(&a_u32_vector);
+    //let sleep_time_vector: Vec<(u32, u32)> = create_sleep_time_vector(&a_u32_vector);
     let q_u32: u32 = input_u32();
     let l_r_u32_tuple_vector: Vec<(u32, u32)> = input_u32_tuple_vector(q_u32);
 
     for lr in l_r_u32_tuple_vector.iter() {
         let sleep_time: u32 =
-//            get_sleep_time(lr.1, &sleep_time_vector) - get_sleep_time(lr.0, &sleep_time_vector);
-            get_sleep_time_2(lr.1, &a_u32_vector) - get_sleep_time_2(lr.0, &a_u32_vector);
+    //            get_sleep_time_2(lr.1, &sleep_time_vector) - get_sleep_time(lr.0, &sleep_time_vector);
+    //            get_sleep_time(lr.1, &a_u32_vector) - get_sleep_time_2(lr.0, &a_u32_vector);
+              get_sleep_time_3(lr.1, &a_u32_vector) - get_sleep_time_3(lr.0, &a_u32_vector);
         println!("{}", sleep_time);
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-fn get_sleep_time_2(time: u32, a: &Vec<u32>) -> u32 {
+fn get_index_of_sleep_block(time: u32, a: &Vec<u32>) -> usize {
+    let mut left: usize = 0;
+    let mut right: usize = a.len() / 2 - 1;
+    let mut middle: usize = right / 2;
+
+    while left < right {
+        if a[middle * 2] <= time && time < a[(middle + 1) * 2] {
+            break;
+        }
+        if time < a[middle * 2] {
+            right = middle - 1;
+        } else if a[(middle + 1) * 2] <= time {
+            left = middle + 1;
+        }
+        middle = (right - left) / 2 + left;
+    }
+
+    return middle;
+}
+/*
+fn get_sleep_time_3(time: u32, a: &Vec<u32>) -> u32 {
+    let mut return_sleep_time: u32 = 0;
+    let index_of_sleep_block: usize = get_index_of_sleep_block(time, a);
+
+    if index_of_sleep_block > 0 {
+        //        for i in (2..2 * (index_of_sleep_block) + 1).step_by(2) {
+        for i in 0..index_of_sleep_block {
+            return_sleep_time = return_sleep_time + a[i] - a[i - 1];
+        }
+        if a[index_of_sleep_block * 2 + 1] <= time {
+            return_sleep_time = return_sleep_time + time - a[index_of_sleep_block * 2 + 1];
+        }
+    } else if index_of_sleep_block == 0 {
+        if a[1] <= time {
+            return_sleep_time = time - a[1];
+        }
+    }
+
+    return return_sleep_time;
+}
+*/
+
+fn get_sleep_time_3(time: u32, a: &Vec<u32>) -> u32 {
+    let mut return_sleep_time: u32 = 0;
+    let index_of_sleep_block: usize = get_index_of_sleep_block(time, a);
+
+    for i in 0..index_of_sleep_block {
+        return_sleep_time = return_sleep_time + a[(i + 1) * 2] - a[((i + 1) * 2) - 1];
+    }
+    if a[index_of_sleep_block * 2 + 1] <= time {
+        return_sleep_time = return_sleep_time + time - a[index_of_sleep_block * 2 + 1];
+    }
+
+    return return_sleep_time;
+}
+
+fn get_sleep_time(time: u32, a: &Vec<u32>) -> u32 {
     let mut return_sleep_time: u32 = 0;
     for i in (2..a.len()).step_by(2) {
         if a[i] < time {
@@ -27,7 +84,7 @@ fn get_sleep_time_2(time: u32, a: &Vec<u32>) -> u32 {
     return return_sleep_time;
 }
 
-fn get_sleep_time(time: u32, sleep_time_vector: &Vec<(u32, u32)>) -> u32 {
+fn get_sleep_time_2(time: u32, sleep_time_vector: &Vec<(u32, u32)>) -> u32 {
     let mut return_sleep_time: u32 = 0;
     for (sleep_start, sleep_end) in sleep_time_vector.iter() {
         if *sleep_end < time {
@@ -49,7 +106,7 @@ fn calculate_awaking_time(s: u32, e: u32, sleep_time_vector: &Vec<(u32, u32)>) -
             continue;
         } else if (s <= se.0 && se.0 <= e) && (s <= se.1 && se.1 <= e) {
             awaking_time = awaking_time - (se.1 - se.0);
-        } else if (se.0 <= s && s <= se.1 && se.1 <= e) {
+        } else if se.0 <= s && s <= se.1 && se.1 <= e {
             awaking_time = awaking_time - (se.1 - s);
         } else if (s <= se.0 && se.0 <= e) && (s <= se.1 && e <= se.1) {
             awaking_time = awaking_time - (e - se.0);
