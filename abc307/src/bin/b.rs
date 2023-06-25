@@ -1,36 +1,38 @@
 fn main() {
-    let input_u32_n_l = input_u32_tuple();
-    let input_u32_k = input_u32();
-    let input_u32_vec_a = input_u32_vector();
+    let n_u32: u32 = input_u32();
+    let s_string_vec: Vec<String> = input_string_vector(n_u32 as usize);
+    let mut return_flag: bool = false;
 
-    println!("{:?}", input_u32_n_l);
-    println!("{:?}", input_u32_k);
-    println!("{:?}", input_u32_vec_a);
+    'outer: for i in 0..n_u32 as usize {
+        for j in 0..n_u32 as usize {
+            let s_string: String = format!("{}{}", s_string_vec[i], s_string_vec[j]);
+
+            let flag: bool = check_palindrome(&s_string);
+            if flag == true && i != j {
+                return_flag = true;
+                break 'outer;
+            }
+        }
+    }
+
+    if return_flag == false {
+        println!("No");
+    } else {
+        println!("Yes");
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-fn input_u32_tuple_vector(n: u32) -> Vec<(u32, u32)> {
-    let mut input_strings = String::new();
-    let mut return_vector = Vec::new();
-
-    for _ in 0..(n - 1) {
-        std::io::stdin().read_line(&mut input_strings).ok();
-        let v: Vec<u32> = input_strings
-            .trim()
-            .split_whitespace()
-            .map(|e| e.parse().ok().unwrap())
-            .collect();
-        input_strings.clear();
-        return_vector.push((v[0], v[1]));
+fn check_palindrome(s: &String) -> bool {
+    let mut return_flag: bool = true;
+    for i in 0..s.len() {
+        if s.chars().nth(i).unwrap() != s.chars().nth(s.len() - 1 - i).unwrap() {
+            return_flag = false;
+            break;
+        }
     }
-
-    return return_vector;
-}
-
-fn get_char_from_string_vector(h: usize, w: usize, string_vector: &Vec<String>) -> char {
-    let return_char: char = string_vector[h].chars().nth(w).unwrap();
-    return return_char;
+    return return_flag;
 }
 
 fn input_string_vector(low: usize) -> Vec<String> {
@@ -46,39 +48,6 @@ fn input_string_vector(low: usize) -> Vec<String> {
 
     return return_vec;
 }
-
-fn input_u32_tuple() -> (u32, u32) {
-    let mut input_strings = String::new();
-    std::io::stdin().read_line(&mut input_strings).ok();
-    let v: Vec<u32> = input_strings
-        .trim()
-        .split_whitespace()
-        .map(|e| e.parse().ok().unwrap())
-        .collect();
-    return (v[0], v[1]);
-}
-fn stdout_i32_vector(v: &Vec<i32>) {
-    let s_vec: Vec<String> = v.iter().map(|x| x.to_string()).collect();
-    println!("{}", s_vec.join(" "));
-}
-
-fn input_s() -> String {
-    let mut input_strings = String::new();
-    std::io::stdin().read_line(&mut input_strings).ok();
-    input_strings.trim().parse().ok().unwrap()
-}
-
-fn input_u32_vector() -> Vec<u32> {
-    let mut input_strings = String::new();
-    std::io::stdin().read_line(&mut input_strings).ok();
-    let v: Vec<u32> = input_strings
-        .trim()
-        .split_whitespace()
-        .map(|e| e.parse().ok().unwrap())
-        .collect();
-    return v;
-}
-
 fn input_u32() -> u32 {
     let mut input_strings = String::new();
     std::io::stdin().read_line(&mut input_strings).ok();
