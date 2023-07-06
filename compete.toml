@@ -34,6 +34,18 @@ fn main() {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+fn get_index_of_equal_string_in_string_vector(v_s: &Vec<String>, s: &String) -> i32 {
+    let mut return_index: i32 = -1;
+
+    for (j, d) in v_s.iter().enumerate() {
+        if *d == *s {
+            return_index = j as i32;
+            break;
+        }
+    }
+    return return_index;
+}
+
 fn input_string_vector() -> Vec<String> {
     let mut input_strings = String::new();
     let mut return_vector: Vec<String> = Vec::new();

@@ -6,21 +6,31 @@ fn main() {
     let mut price: u32 = 0;
 
     for i in 0..n_m_u32_tuple.0 {
-        let mut index: usize = 0;
-
-        for (j, d) in d_u32_vec.iter().enumerate() {
-            if *d == c_u32_vec[i as usize] {
-                index = j + 1;
-                break;
-            }
+        let index: i32 =
+            get_index_of_equal_string_in_string_vector(&d_u32_vec, &c_u32_vec[i as usize]);
+        if index != -1 {
+            price = price + p_u32_vec[(index + 1) as usize];
+        } else {
+            price = price + p_u32_vec[0];
         }
-        price = price + p_u32_vec[index];
     }
 
     println!("{:?}", price);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+
+fn get_index_of_equal_string_in_string_vector(v_s: &Vec<String>, s: &String) -> i32 {
+    let mut return_index: i32 = -1;
+
+    for (j, d) in v_s.iter().enumerate() {
+        if *d == *s {
+            return_index = j as i32;
+            break;
+        }
+    }
+    return return_index;
+}
 
 fn input_u32_tuple() -> (u32, u32) {
     let mut input_strings = String::new();
