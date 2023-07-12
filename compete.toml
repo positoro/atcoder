@@ -34,6 +34,23 @@ fn main() {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+fn input_u32_vector_vector(low: usize) -> Vec<Vec<u32>> {
+    let mut input_strings = String::new();
+    let mut return_u32_vector_vector = Vec::new();
+    for _ in 0..low {
+        std::io::stdin().read_line(&mut input_strings).ok();
+        let v: Vec<u32> = input_strings
+            .trim()
+            .split_whitespace()
+            .map(|e| e.parse().ok().unwrap())
+            .collect();
+        input_strings.clear();
+        return_u32_vector_vector.push(v);
+    }
+
+    return return_u32_vector_vector;
+}
+
 fn get_index_of_equal_string_in_string_vector(v_s: &Vec<String>, s: &String) -> i32 {
     let mut return_index: i32 = -1;
 
