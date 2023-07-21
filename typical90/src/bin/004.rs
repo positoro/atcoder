@@ -5,13 +5,7 @@ fn main() {
     let mut sum_h_vec_u32: Vec<u32> = vec![0; h_w.0];
     let mut sum_w_vec_u32: Vec<u32> = vec![0; h_w.1];
 
-    for h in 0..h_w.0 {
-        sum_h_vec_u32[h] = sum_h(&a_u32_vec_vec, h);
-    }
-
-    for w in 0..h_w.1 {
-        sum_w_vec_u32[w] = sum_w(&a_u32_vec_vec, w, &h_w);
-    }
+    (sum_h_vec_u32, sum_w_vec_u32) = precalculate_sum(&a_u32_vec_vec, &h_w);
 
     for h in 0..h_w.0 {
         for w in 0..h_w.1 {
@@ -23,17 +17,17 @@ fn main() {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-fn sum_w(a: &Vec<Vec<u32>>, w: usize, h_w: &(usize, usize)) -> u32 {
-    let mut return_sum = 0;
-    for h in 0..h_w.0 {
-        return_sum = return_sum + a[h][w];
-    }
-    return return_sum;
-}
+fn precalculate_sum(a: &Vec<Vec<u32>>, h_w: &(usize, usize)) -> (Vec<u32>, Vec<u32>) {
+    let mut return_h_sum: Vec<u32> = vec![0; h_w.0];
+    let mut return_w_sum: Vec<u32> = vec![0; h_w.1];
 
-fn sum_h(a: &Vec<Vec<u32>>, h: usize) -> u32 {
-    let return_sum = a[h].iter().sum();
-    return return_sum;
+    for h in 0..h_w.0 {
+        return_h_sum[h] = a[h].iter().sum();
+        for w in 0..h_w.1 {
+            return_w_sum[w] = return_w_sum[w] + a[h][w];
+        }
+    }
+    return (return_h_sum, return_w_sum);
 }
 
 fn stdout_vector_vector_u32(v: &Vec<Vec<u32>>) {
