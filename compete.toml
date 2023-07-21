@@ -23,16 +23,25 @@ test-suite = "{{ manifest_dir }}/testcases/{{ bin_alias }}.yml"
 [template]
 src = '''
 fn main() {
-    let input_u32_n_l = input_u32_tuple();
-    let input_u32_k = input_u32();
-    let input_u32_vec_a = input_u32_vector();
+    let n_l_tuple_u32: (u32, u32) = input_tuple_u32();
+    let k_u32 = input_u32();
+    let a_vec_u32 = input_vector_u32();
 
-    println!("{:?}", input_u32_n_l);
-    println!("{:?}", input_u32_k);
-    println!("{:?}", input_u32_vec_a);
+    println!("{:?}", n_l_tuple_u32);
+    println!("{:?}", k_u32);
+    println!("{:?}", a_vec_u32);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+
+fn stdout_vector_vector_u32(v: &Vec<Vec<u32>>) {
+    for h in v.iter() {
+        for w in h.iter() {
+            print!("{} ", w);
+        }
+        println!();
+    }
+}
 
 fn input_u32_vector_vector(low: usize) -> Vec<Vec<u32>> {
     let mut input_strings = String::new();
@@ -112,7 +121,7 @@ fn input_string_vector(low: usize) -> Vec<String> {
     return return_vec;
 }
 
-fn input_u32_tuple() -> (u32, u32) {
+fn input_tuple() -> (u32, u32) {
     let mut input_strings = String::new();
     std::io::stdin().read_line(&mut input_strings).ok();
     let v: Vec<u32> = input_strings
@@ -133,7 +142,7 @@ fn input_s() -> String {
     input_strings.trim().parse().ok().unwrap()
 }
 
-fn input_u32_vector() -> Vec<u32> {
+fn input_vector_u32() -> Vec<u32> {
     let mut input_strings = String::new();
     std::io::stdin().read_line(&mut input_strings).ok();
     let v: Vec<u32> = input_strings
