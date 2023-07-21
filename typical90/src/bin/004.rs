@@ -2,11 +2,20 @@ fn main() {
     let h_w: (usize, usize) = input_tuple_usize();
     let a_u32_vec_vec: Vec<Vec<u32>> = input_u32_vector_vector(h_w.0);
     let mut ans_u32_vec_vec: Vec<Vec<u32>> = vec![vec![0; h_w.1]; h_w.0];
+    let mut sum_h_vec_u32: Vec<u32> = vec![0; h_w.0];
+    let mut sum_w_vec_u32: Vec<u32> = vec![0; h_w.1];
+
+    for h in 0..h_w.0 {
+        sum_h_vec_u32[h] = sum_h(&a_u32_vec_vec, h);
+    }
+
+    for w in 0..h_w.1 {
+        sum_w_vec_u32[w] = sum_w(&a_u32_vec_vec, w);
+    }
 
     for h in 0..h_w.0 {
         for w in 0..h_w.1 {
-            ans_u32_vec_vec[h][w] =
-                sum_h(&a_u32_vec_vec, h) + sum_w(&a_u32_vec_vec, w) - a_u32_vec_vec[h][w];
+            ans_u32_vec_vec[h][w] = sum_h_vec_u32[h] + sum_w_vec_u32[w] - a_u32_vec_vec[h][w];
         }
     }
     stdout_vector_vector_u32(&ans_u32_vec_vec);
