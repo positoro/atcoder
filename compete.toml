@@ -34,6 +34,16 @@ fn main() {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+fn input_vector_u32_low(low: &u32) -> Vec<u32> {
+    let mut return_vector: Vec<u32> = Vec::new();
+
+    for _ in 0..*low {
+        return_vector.push(input_u32());
+    }
+
+    return return_vector;
+}
+
 fn stdout_vector_vector_u32(v: &Vec<Vec<u32>>) {
     for h in v.iter() {
         for w in h.iter() {
