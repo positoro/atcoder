@@ -1,3 +1,4 @@
+use std::cmp::min;
 fn main() {
     let n_u32: u32 = input_u32();
     let a_vec_u32: Vec<u32> = input_vector_u32();
@@ -13,39 +14,26 @@ fn main() {
 
 ////////////////////////////////////////////////////////////////////////////////
 fn binary_search(a: &Vec<u32>, b: u32) -> u32 {
-    let mut return_left_abs_diff = 0;
-    let mut return_right_abs_diff = 0;
-    let mut return_abs_diff = 0;
+    let mut return_left_abs_diff: i32 = 0;
+    let mut return_right_abs_diff: i32 = 0;
+    let mut return_abs_diff: u32 = 0;
     let mut left: usize = 0;
-    let mut right: usize = a.len();
-    let mut mid: usize = right / 2;
+    let mut right: usize = a.len() - 1;
 
-    while (left + 1) != right {
-        if b > a[mid] as u32 {
+    while (left + 1) < right {
+        let mid: usize = (left + right) / 2;
+        if b > a[mid] {
             left = mid;
         } else {
             right = mid;
         }
-        mid = (left + right) / 2;
     }
 
-    if a[left] > b {
-        return_left_abs_diff = a[left] - b;
-    } else {
-        return_left_abs_diff = b - a[left];
-    }
+    return_left_abs_diff = (a[left] as i32 - b as i32).abs();
+    return_right_abs_diff = (a[right] as i32 - b as i32).abs();
 
-    if a[right] > b {
-        return_right_abs_diff = a[right] - b;
-    } else {
-        return_right_abs_diff = b - a[right];
-    }
+    return_abs_diff = min(return_left_abs_diff as u32, return_right_abs_diff as u32);
 
-    if return_left_abs_diff < return_right_abs_diff {
-        return_abs_diff = return_left_abs_diff;
-    } else {
-        return_abs_diff = return_left_abs_diff;
-    }
     return return_abs_diff;
 }
 
