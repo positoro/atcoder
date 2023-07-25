@@ -13,15 +13,39 @@ fn main() {
 
 ////////////////////////////////////////////////////////////////////////////////
 fn binary_search(a: &Vec<u32>, b: u32) -> u32 {
+    let mut return_left_abs_diff = 0;
+    let mut return_right_abs_diff = 0;
     let mut return_abs_diff = 0;
-    for n in 0..n_u32 {
-        if a_sorted[n as usize] > b_vec_u32[q as usize] {
-            complain_rate[q as usize].push(a_sorted[n as usize] - b_vec_u32[q as usize]);
+    let mut left: usize = 0;
+    let mut right: usize = a.len();
+    let mut mid: usize = right / 2;
+
+    while (left + 1) != right {
+        if b > a[mid] as u32 {
+            left = mid;
         } else {
-            complain_rate[q as usize].push(b_vec_u32[q as usize] - a_sorted[n as usize]);
+            right = mid;
         }
+        mid = (left + right) / 2;
     }
 
+    if a[left] > b {
+        return_left_abs_diff = a[left] - b;
+    } else {
+        return_left_abs_diff = b - a[left];
+    }
+
+    if a[right] > b {
+        return_right_abs_diff = a[right] - b;
+    } else {
+        return_right_abs_diff = b - a[right];
+    }
+
+    if return_left_abs_diff < return_right_abs_diff {
+        return_abs_diff = return_left_abs_diff;
+    } else {
+        return_abs_diff = return_left_abs_diff;
+    }
     return return_abs_diff;
 }
 
