@@ -1,20 +1,29 @@
 fn main() {
     let n_u32: u32 = input_u32();
     let a_vec_u32: Vec<u32> = input_vector_u32();
+    let mut a_sorted: Vec<u32> = a_vec_u32.clone();
+    a_sorted.sort();
     let q_u32: u32 = input_u32();
     let b_vec_u32: Vec<u32> = input_vector_u32_low(&q_u32);
-    let mut complain_rate: Vec<u32> = Vec::new();
 
     for q in 0..q_u32 {
-        for n in 0..n_u32 {
-            complain_rate.push((a_vec_u32[n as usize]).abs_diff(b_vec_u32[q as usize]));
-        }
-        println!("{}", complain_rate.iter().min().unwrap());
-        complain_rate.clear();
+        println!("{}", binary_search(&a_sorted, b_vec_u32[q as usize]));
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+fn binary_search(a: &Vec<u32>, b: u32) -> u32 {
+    let mut return_abs_diff = 0;
+    for n in 0..n_u32 {
+        if a_sorted[n as usize] > b_vec_u32[q as usize] {
+            complain_rate[q as usize].push(a_sorted[n as usize] - b_vec_u32[q as usize]);
+        } else {
+            complain_rate[q as usize].push(b_vec_u32[q as usize] - a_sorted[n as usize]);
+        }
+    }
+
+    return return_abs_diff;
+}
 
 fn input_u32() -> u32 {
     let mut input_strings = String::new();
