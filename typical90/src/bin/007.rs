@@ -14,25 +14,21 @@ fn main() {
 
 ////////////////////////////////////////////////////////////////////////////////
 fn binary_search(a: &Vec<u32>, b: u32) -> u32 {
-    let mut return_left_abs_diff: i32 = 0;
-    let mut return_right_abs_diff: i32 = 0;
-    let mut return_abs_diff: u32 = 0;
     let mut left: usize = 0;
     let mut right: usize = a.len() - 1;
 
     while (left + 1) < right {
         let mid: usize = (left + right) / 2;
-        if b > a[mid] {
-            left = mid;
-        } else {
+        if b <= a[mid] {
             right = mid;
+        } else {
+            left = mid;
         }
     }
 
-    return_left_abs_diff = (a[left] as i32 - b as i32).abs();
-    return_right_abs_diff = (a[right] as i32 - b as i32).abs();
-
-    return_abs_diff = min(return_left_abs_diff as u32, return_right_abs_diff as u32);
+    let right_abs_diff: u32 = (a[right] as i32 - b as i32).abs() as u32;
+    let left_abs_diff: u32 = (a[left] as i32 - b as i32).abs() as u32;
+    let return_abs_diff = min(left_abs_diff as u32, right_abs_diff as u32);
 
     return return_abs_diff;
 }
