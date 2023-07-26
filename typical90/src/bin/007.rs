@@ -13,6 +13,7 @@ fn main() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+
 fn binary_search(a: &Vec<u32>, b: u32) -> u32 {
     let mut left: usize = 0;
     let mut right: usize = a.len() - 1;
