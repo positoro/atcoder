@@ -34,24 +34,27 @@ fn main() {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-fn binary_search(a: &Vec<u32>, b: u32) -> u32 {
-    let mut left: usize = 0;
-    let mut right: usize = a.len() - 1;
+fn _binary_search_check_satisfaction(vector: &Vec<u32>, index: usize, value: u32) -> bool {
+    if value <= vector[index] {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+fn binary_search(a: &Vec<u32>, b: u32) -> usize {
+    let mut left: i32 = -1;
+    let mut right: i32 = a.len() as i32;
 
     while (left + 1) < right {
-        let mid: usize = (left + right) / 2;
-        if b <= a[mid] {
+        let mid: i32 = (left + right) / 2;
+        if _binary_search_check_satisfaction(&a, mid as usize, b) == true {
             right = mid;
         } else {
             left = mid;
         }
     }
-
-    let right_abs_diff: u32 = (a[right] as i32 - b as i32).abs() as u32;
-    let left_abs_diff: u32 = (a[left] as i32 - b as i32).abs() as u32;
-    let return_abs_diff = min(left_abs_diff as u32, right_abs_diff as u32);
-
-    return return_abs_diff;
+    return right as usize;
 }
 
 fn input_vector_u32_low(low: &u32) -> Vec<u32> {
