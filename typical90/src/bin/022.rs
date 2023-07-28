@@ -1,32 +1,54 @@
+use std::cmp::max;
+use std::cmp::min;
+
 fn main() {
     let a_b_c_tuple: (u64, u64, u64) = input_tuple();
-    let gcm: u64 = get_greatest_common_divisor(a_b_c_tuple.0, a_b_c_tuple.1, a_b_c_tuple.2);
+    let mut gcm: u64 = 0;
+
+    get_greatest_common_divisor(
+        a_b_c_tuple.0,
+        get_greatest_common_divisor(a_b_c_tuple.1, a_b_c_tuple.2),
+    );
+
+    if false {
+        gcm = get_recursive_greatest_common_divisor(
+            a_b_c_tuple.0,
+            get_recursive_greatest_common_divisor(a_b_c_tuple.1, a_b_c_tuple.2),
+        );
+    } else {
+        gcm = get_greatest_common_divisor(
+            a_b_c_tuple.0,
+            get_greatest_common_divisor(a_b_c_tuple.1, a_b_c_tuple.2),
+        );
+    }
+
+    let cut_times: u64 =
+        (a_b_c_tuple.0 / gcm) - 1 + (a_b_c_tuple.1 / gcm) - 1 + (a_b_c_tuple.2 / gcm) - 1;
+    println!("{}", cut_times);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-fn get_greatest_common_divisor(a: u64, b: u64, c: u64) -> u64 {}
 
-fn _binary_search_check_satisfaction(vector: &Vec<u32>, index: usize, value: u32) -> bool {
-    if value <= vector[index] {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-fn binary_search(a: &Vec<u32>, b: u32) -> usize {
-    let mut left: i32 = -1;
-    let mut right: i32 = a.len() as i32;
-
-    while (left + 1) < right {
-        let mid: i32 = (left + right) / 2;
-        if _binary_search_check_satisfaction(&a, mid as usize, b) == true {
-            right = mid;
+fn get_greatest_common_divisor(mut a: u64, mut b: u64) -> u64 {
+    while a != 0 && b != 0 {
+        let bigger: u64 = max(a, b);
+        if bigger == a {
+            a = bigger % b;
         } else {
-            left = mid;
+            b = bigger % a;
         }
     }
-    return right as usize;
+    return max(a, b);
+}
+
+fn get_recursive_greatest_common_divisor(a: u64, b: u64) -> u64 {
+    let mut bigger: u64 = max(a, b);
+    let mut smaller: u64 = min(a, b);
+    if smaller == 0 {
+        return bigger;
+    }
+
+    return get_recursive_greatest_common_divisor(b, a % b);
 }
 
 fn input_tuple() -> (u64, u64, u64) {
