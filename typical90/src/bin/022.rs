@@ -12,8 +12,8 @@ fn main() {
 
     if false {
         gcm = get_recursive_greatest_common_divisor(
-            a_b_c_tuple.0,
-            get_recursive_greatest_common_divisor(a_b_c_tuple.1, a_b_c_tuple.2),
+            &a_b_c_tuple.0,
+            &get_recursive_greatest_common_divisor(&a_b_c_tuple.1, &a_b_c_tuple.2),
         );
     } else {
         gcm = get_greatest_common_divisor(
@@ -41,14 +41,14 @@ fn get_greatest_common_divisor(mut a: u64, mut b: u64) -> u64 {
     return max(a, b);
 }
 
-fn get_recursive_greatest_common_divisor(a: u64, b: u64) -> u64 {
-    let mut bigger: u64 = max(a, b);
-    let mut smaller: u64 = min(a, b);
+fn get_recursive_greatest_common_divisor(a: &u64, b: &u64) -> u64 {
+    let bigger: u64 = max(*a, *b);
+    let smaller: u64 = min(*a, *b);
     if smaller == 0 {
         return bigger;
     }
 
-    return get_recursive_greatest_common_divisor(b, a % b);
+    return get_recursive_greatest_common_divisor(b, &(a % b));
 }
 
 fn input_tuple() -> (u64, u64, u64) {
