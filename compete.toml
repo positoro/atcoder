@@ -308,7 +308,7 @@ path = "./{{ contest }}"
 
 [test]
 # Toolchain for the test. (optional)
-#toolchain = "1.42.0"
+#toolchain = "1.72.0"
 # Profile for `cargo build`. ("dev" | "release")
 #
 # Defaults to `"dev"`.
@@ -321,4 +321,4 @@ path = "./{{ contest }}"
 [submit]
 kind = "file"
 path = "{{ src_path }}"
-language_id = "4050"
+language_id = "5054"
