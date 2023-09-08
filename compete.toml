@@ -23,7 +23,7 @@ test-suite = "{{ manifest_dir }}/testcases/{{ bin_alias }}.yml"
 [template]
 src = '''
 fn main() {
-    let n_l_tuple_u32: (u32, u32) = input_tuple_u32();
+    let n_l_tuple_u32: (u32, u32) = input_tuple();
     let k_u32 = input_u32();
     let a_vec_u32 = input_vector_u32();
 
@@ -140,7 +140,7 @@ fn get_char_from_string_vector(h: usize, w: usize, string_vector: &Vec<String>) 
     return return_char;
 }
 
-fn input_string_vector(low: usize) -> Vec<String> {
+fn input_string_vector_with_low(low: usize) -> Vec<String> {
     let mut input_strings = String::new();
     let mut return_vec: Vec<String> = Vec::new();
 
