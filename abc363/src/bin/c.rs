@@ -3,6 +3,7 @@ fn main() {
     let k_u32 = input_u32();
     let a_vec_u32 = input_vector_u32();
 
+    println!("test");
     println!("{:?}", n_l_tuple_u32);
     println!("{:?}", k_u32);
     println!("{:?}", a_vec_u32);
