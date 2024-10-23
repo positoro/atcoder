@@ -1,5 +1,7 @@
+mod module;
+
 fn main() {
-    let k_u32: u32 = input_u32();
+    let k_u32: u32 = module::input_u32();
     let answer: u32;
 
     if k_u32 <= 99 {
@@ -11,17 +13,4 @@ fn main() {
     }
 
     println!("{}", answer);
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-fn input_u32() -> u32 {
-    let mut input_strings = String::new();
-    std::io::stdin().read_line(&mut input_strings).ok();
-    let v: Vec<u32> = input_strings
-        .trim()
-        .split_whitespace()
-        .map(|e| e.parse().ok().unwrap())
-        .collect();
-    return v[0];
 }
