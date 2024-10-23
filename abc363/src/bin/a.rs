@@ -1,7 +1,7 @@
-mod module;
+mod modules;
 
 fn main() {
-    let k_u32: u32 = module::input_u32();
+    let k_u32: u32 = modules::stdin::u32();
     let answer: u32;
 
     if k_u32 <= 99 {
