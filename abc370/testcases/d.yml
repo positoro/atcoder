@@ -1,0 +1,9 @@
+---
+type: Batch
+timelimit: ~
+match: Lines
+
+cases: []
+
+extend:
+  - type: SystemTestCases
